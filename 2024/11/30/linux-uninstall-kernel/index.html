@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    
+    <meta charset="UTF-8">
+    <title>卸载多余内核 - Linux 教程</title>
+    <link rel="shortcut icon" href="/static/img/icon.png">
+    <link rel="icon" href="/static/img/icon.png" sizes="192x192"/>
+    
+<link rel="stylesheet" href="/static/kico.css">
+<link rel="stylesheet" href="/static/hingle.css">
+
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta property="og:site_name" content="Linux 教程">
+    <meta property="og:title" content="卸载多余内核"/>
+    
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <header>
+    <div class="head-title">
+        <h4>Linux 教程</h4>
+    </div>
+    <div class="head-action">
+        <div class="toggle-btn"></div>
+        <div class="light-btn"></div>
+        <div class="search-btn"></div>
+    </div>
+    <form class="head-search" method="post">
+        <input type="text" name="s" placeholder="搜索什么？">
+    </form>
+    <nav class="head-menu">
+        <a href="/">首页</a>
+        <div class="has-child">
+            <a href>分类</a>
+            <div class="sub-menu">
+                <a class="category-link" href="/categories/Kernel/">Kernel</a><a class="category-link" href="/categories/Time/">Time</a>
+            </div>
+        </div>
+        
+            <a href="/about">关于</a>
+        
+    </nav>
+</header>
+
+    <main>
+    <div class="wrap min">
+        <section class="post-title">
+            <h2>卸载多余内核</h2>
+            <div class="post-meta">
+                <time class="date">2024.11.30</time>
+            
+                <span class="category"><a class="category-link" href="/categories/Kernel/">Kernel</a></span>
+            
+            </div>
+        </section>
+        <article class="post-content">
+        
+            <p>前言:Linux每次更新内核，旧内核不会自动删除，占用空间。</p>
+<p>注意:卸载内核前，确保保留的内核可以启动，以免悲剧发生，本教程后续会进行完善。</p>
+<h2 id="查看当前的内核"><a href="#查看当前的内核" class="headerlink" title="查看当前的内核"></a>查看当前的内核</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">uname</span> -a</span><br></pre></td></tr></table></figure>
+
+<h2 id="Debian-Ubuntu"><a href="#Debian-Ubuntu" class="headerlink" title="Debian&amp;Ubuntu"></a>Debian&amp;Ubuntu</h2><p>查看当前系统中所有内核</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg --get-selections |grep linux</span><br></pre></td></tr></table></figure>
+
+<p>以Ubuntu为例:当前系统中所有内核(精简了部分显示信息)</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">linux-headers-5.19.0-16                install</span><br><span class="line">linux-headers-5.19.0-16-generic        install</span><br><span class="line">linux-image-5.19.0-16-generic          install</span><br><span class="line">linux-modules-5.19.0-16-generic        install</span><br></pre></td></tr></table></figure>
+
+<p>清理多余的系统内核(复制需要卸载的内核名称，如下面示例)</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt purge linux-headers-5.19.0-16 linux-headers-5.19.0-16-generic linux-image-5.19.0-16-generic linux-modules-5.19.0-16-generic </span><br></pre></td></tr></table></figure>
+
+<p>删除内核后需要更新grup移除失效的启动项</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> update-grub　<span class="comment">#根据情况选择grub/grub2</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Fedora"><a href="#Fedora" class="headerlink" title="Fedora"></a>Fedora</h2><blockquote>
+<p>自动卸载旧内核</p>
+</blockquote>
+<p>卸载命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> dnf remove --oldinstallonly </span><br></pre></td></tr></table></figure>
+
+<p>清理多余依赖</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> dnf autoremove</span><br></pre></td></tr></table></figure>
+
+<h2 id="Arch"><a href="#Arch" class="headerlink" title="Arch"></a>Arch</h2><blockquote>
+<p>自动卸载旧内核</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -R linux</span><br></pre></td></tr></table></figure>
+
+<p>删除内核后需要更新grup移除失效的启动项</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> grub-mkconfig -o /boot/grub/grub.cfg</span><br></pre></td></tr></table></figure>
+
+        </article>
+        <section class="post-near">
+            <ul>
+                
+                    <li>上一篇: 看完啦 (つд⊂)</li>
+                
+                
+                    <li>下一篇: <a href="/2024/11/30/linux-time/">Linux 和 Windows 时间不同步</a></li>
+                
+            </ul>
+        </section>
+        
+            <section class="post-tags">
+            <a class="-none-link" href="/tags/Linux/" rel="tag">Linux</a><a class="-none-link" href="/tags/Remove/" rel="tag">Remove</a>
+            </section>
+        
+    
+        <section class="post-author">
+        
+            <figure class="author-avatar">
+                <img src="https://avatars.githubusercontent.com/u/185505786?s=200&v=4" alt="志海融新" />
+            </figure>
+        
+            <div class="author-info">
+                <h4>志海融新</h4>
+                <p>本站未注明转载的文章均为原创，并采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed" target="_blank" rel="nofollow">CC BY-SA 4.0</a> 授权协议，<span style="color: #E91E63">转载请注明来源</span>，谢谢！</p>
+            </div>
+        </section>
+    
+    </div>
+</main>
+
+    <footer>
+    <div class="buttons">
+        <button class="to-top" href="#"></button>
+    </div>
+    <div class="wrap min">
+        <section class="widget">
+            <div class="row">
+                <div class="col-m-4">
+                    <h3 class="title-recent">最新文章：</h3>
+                    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2024/11/30/linux-uninstall-kernel/">卸载多余内核</a></li><li class="post-list-item"><a class="post-list-link" href="/2024/11/30/linux-time/">Linux 和 Windows 时间不同步</a></li><li class="post-list-item"><a class="post-list-link" href="/2024/11/30/hello-world/">Hello World</a></li></ul>
+                </div>
+                <div class="col-m-4">
+                    <h3 class="title-date">时光机：</h3>
+                    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">十一月 2024</a></li></ul>
+                </div>
+                <div class="col-m-4">
+                    <h3 class="title-tags">标签云：</h3>
+                    <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Remove/" style="font-size: 10px;">Remove</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a>
+                </div>
+            </div>
+        </section>
+        <section class="sub-footer">
+            <p>© 2024 <a href="/">Linux 教程</a>. All Rights Reserved. Theme By <a href="https://github.com/Dreamer-Paul/Hingle" target="_blank" rel="nofollow">Hingle</a>.</p>
+        </section>
+    </div>
+</footer>
+
+
+<script src="/static/kico.js"></script>
+<script src="/static/hingle.js"></script>
+
+
+<script>var hingle = new Paul_Hingle({"copyright":true,"night":true});</script>
+
+  </body>
+</html>
