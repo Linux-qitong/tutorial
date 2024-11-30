@@ -1,0 +1,17 @@
+author: '志海融新' # 作者名称
+author_avatar: 'https://avatars.githubusercontent.com/u/185505786?s=200&v=4' # 作者头像
+author_text: '本站未注明转载的文章均为原创，并采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed" target="_blank" rel="nofollow">CC BY-SA 4.0</a> 授权协议，<span style="color: #E91E63">转载请注明来源</span>，谢谢！' # 作者信息
+social: # 社交链接
+  - title: 'Github'
+    icon: 'github'
+    link: 'https://github.com/zen-harmony'
+  - title: '首页'
+    icon: 'home'
+    link: 'https://paul.ren'
+# background: 'https://api.paugram.com/wallpaper?source=gh' # 主题背景
+menu: # 页眉菜单项目
+  '关于': /about
+  # '朋友们': /friends
+config:
+  copyright: true # 复制的时候弹出保留原站链接说明
+  night: true # 自动切换夜间模式
